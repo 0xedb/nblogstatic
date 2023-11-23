@@ -1,18 +1,21 @@
-import Link from "next/link";
 import React from "react";
+import { Paginator } from "./paginator";
 
-export default function Home() {
+const BASE_URL = "https://jsonplaceholder.typicode.com/posts";
+
+export async function getBlogTitle() {
+  const data = await fetch(BASE_URL);
+  const posts: { title: string; id: number }[] = await data.json();
+
+  return posts.map(({ title, id }) => ({ title, id }));
+}
+
+export default async function Home() {
+  const data = await getBlogTitle();
+
   return (
     <div className="p-8 h-full w-full">
-      {Array.from({ length: 100 }, (_, idx) => idx + 1).map((indx) => (
-        <div key={indx}>
-          <Link href={`/blog/${indx}`}>
-            <div className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600">
-              Blog {`${indx}`}
-            </div>
-          </Link>
-        </div>
-      ))}
+      <Paginator data={data} />
     </div>
   );
 }
