@@ -2,6 +2,7 @@ import Link from "next/link";
 export const dynamicParams = false;
 
 const BASE_URL = "https://jsonplaceholder.typicode.com/posts";
+const COMMENT_URL = "https://jsonplaceholder.typicode.com/comments?postId=";
 
 type TBlog = {
   userId: number;
@@ -10,8 +11,22 @@ type TBlog = {
   body: string;
 };
 
+type Comment = {
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
+};
+
 async function getBlogContent(postId: string) {
   const res = await fetch(`${BASE_URL}/${postId}`);
+
+  return res.json();
+}
+
+async function getComments(postId: string) {
+  const res = await fetch(`${COMMENT_URL}${postId}`);
 
   return res.json();
 }
@@ -30,6 +45,8 @@ export default async function Page(
 ) {
   const { slug } = params;
   const { userId, id, title, body }: TBlog = await getBlogContent(slug);
+  const comments: Comment[] = await getComments(slug);
+
   return (
     <>
       <h1 className="font-bold pt-8">{title}</h1>
@@ -39,6 +56,18 @@ export default async function Page(
         </pre>
       </div>
       <h2>ID: {id} - USERID:{userId}</h2>
+
+      <div className="mt-9 bg-slate-400">
+        {comments.map(({ postId, id, name, email, body }) => (
+          <div key={id}>
+            <small>
+              <div>{email}</div>
+              <div>{name}</div>
+              <pre>{body}</pre>
+            </small>
+          </div>
+        ))}
+      </div>
 
       <Link href="/">
         <div className="pt-[50px]">Go Home</div>
