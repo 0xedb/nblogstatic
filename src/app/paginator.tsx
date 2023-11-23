@@ -29,9 +29,9 @@ export function Paginator({ data }: PaginatorProps) {
         {data.slice(page, page + PAGE_CONSTANT).map(({ id, title }) => (
           <div key={id}>
             <Link href={`/blog/${id}`}>
-              <div className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600">
-                Blog {`${id}`}
-              </div>
+              <span className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600">
+                {`${title}`}
+              </span>
             </Link>
           </div>
         ))}
