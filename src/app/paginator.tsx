@@ -1,6 +1,6 @@
 "use client";
 
-import Fuse, { type FuseResult } from "fuse.js";
+import Fuse from "fuse.js";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -11,12 +11,6 @@ type PaginatorProps = {
 export function Paginator({ data: pageData }: PaginatorProps) {
   const [data, setData] = useState(pageData);
   const [page, setPage] = useState(0);
-  const [search, setSearch] = useState("");
-  const [fuseRes, setFuseRes] = useState<FuseResult<{
-    title: string;
-    id: number;
-    body: string;
-  }>[]>([]);
 
   const PAGE_CONSTANT = 10;
   const PAGE_LIMIT = data.length;
@@ -36,7 +30,6 @@ export function Paginator({ data: pageData }: PaginatorProps) {
   };
 
   const handleSearch = (ev: React.FormEvent<HTMLInputElement>) => {
-    setSearch(ev.currentTarget.value);
     const result = fuse.search(ev.currentTarget.value);
 
     setData(

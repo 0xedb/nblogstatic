@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PostComment } from "./comment";
 export const dynamicParams = false;
 
 const BASE_URL = "https://jsonplaceholder.typicode.com/posts";
@@ -11,7 +12,7 @@ type TBlog = {
   body: string;
 };
 
-type Comment = {
+export type Comment = {
   postId: number;
   id: number;
   name: string;
@@ -57,17 +58,7 @@ export default async function Page(
       </div>
       <h2>ID: {id} - USERID:{userId}</h2>
 
-      <div className="mt-9 bg-slate-400">
-        {comments.map(({ postId, id, name, email, body }) => (
-          <div key={id}>
-            <small>
-              <div>{email}</div>
-              <div>{name}</div>
-              <pre>{body}</pre>
-            </small>
-          </div>
-        ))}
-      </div>
+      <PostComment comments={comments} />
 
       <Link href="/">
         <div className="pt-[50px]">Go Home</div>
