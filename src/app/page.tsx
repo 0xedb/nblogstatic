@@ -3,15 +3,16 @@ import { Paginator } from "./paginator";
 
 const BASE_URL = "https://jsonplaceholder.typicode.com/posts";
 
-export async function getBlogTitle() {
+export async function getBlogInfo() {
   const data = await fetch(BASE_URL);
-  const posts: { title: string; id: number }[] = await data.json();
+  const posts: { title: string; id: number; body: string }[] = await data
+    .json();
 
-  return posts.map(({ title, id }) => ({ title, id }));
+  return posts.map(({ title, id, body }) => ({ title, id, body }));
 }
 
 export default async function Home() {
-  const data = await getBlogTitle();
+  const data = await getBlogInfo();
 
   return (
     <div className="p-8 h-full w-full">
